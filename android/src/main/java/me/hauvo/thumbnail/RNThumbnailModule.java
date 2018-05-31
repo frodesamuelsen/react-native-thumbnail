@@ -60,55 +60,53 @@ public class RNThumbnailModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void get(String filePath, Promise promise) {
-    filePath = filePath.replace("file://","");
-    String fullPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/thumb";
-    String fileName = "thumb-" + getMD5(filePath) + ".jpeg";
+  	try {
+	    filePath = filePath.replace("file://","");
+	    String fullPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/thumb";
+	    String fileName = "thumb-" + getMD5(filePath) + ".jpeg";
 
-    File cache = new File(fullPath, fileName);
-    if (cache.exists()) {
-      WritableMap map = Arguments.createMap();
-      map.putString("path", "file://" + fullPath + '/' + fileName);
-      promise.resolve(map);
-      return;
+	    File cache = new File(fullPath, fileName);
+	    if (cache.exists()) {
+	      WritableMap map = Arguments.createMap();
+	      map.putString("path", "file://" + fullPath + '/' + fileName);
+	      promise.resolve(map);
+	      return;
+	    }
+
+	    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+	    retriever.setDataSource(filePath);
+	    Bitmap image = retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+
+		File dir = new File(fullPath);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+
+		OutputStream fOut = null;
+		// String fileName = "thumb-" + UUID.randomUUID().toString() + ".jpeg";
+
+		File file = new File(fullPath, fileName);
+		file.createNewFile();
+		fOut = new FileOutputStream(file);
+
+		// 100 means no compression, the lower you go, the stronger the compression
+		image.compress(Bitmap.CompressFormat.JPEG, 60, fOut);
+		fOut.flush();
+		fOut.close();
+
+		// MediaStore.Images.Media.insertImage(reactContext.getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+
+		WritableMap map = Arguments.createMap();
+
+		map.putString("path", "file://" + fullPath + '/' + fileName);
+		map.putDouble("width", image.getWidth());
+		map.putDouble("height", image.getHeight());
+
+		promise.resolve(map);
+
+		} catch (Exception e) {
+			//Log.e("E_RNThumnail_ERROR", e.getMessage());
+			promise.reject("E_RNThumnail_ERROR", e);
+		}
     }
-
-    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-    retriever.setDataSource(filePath);
-    Bitmap image = retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-
-
-
-    try {
-      File dir = new File(fullPath);
-      if (!dir.exists()) {
-        dir.mkdirs();
-      }
-
-      OutputStream fOut = null;
-      // String fileName = "thumb-" + UUID.randomUUID().toString() + ".jpeg";
-
-      File file = new File(fullPath, fileName);
-      file.createNewFile();
-      fOut = new FileOutputStream(file);
-
-      // 100 means no compression, the lower you go, the stronger the compression
-      image.compress(Bitmap.CompressFormat.JPEG, 60, fOut);
-      fOut.flush();
-      fOut.close();
-
-      // MediaStore.Images.Media.insertImage(reactContext.getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
-
-      WritableMap map = Arguments.createMap();
-
-      map.putString("path", "file://" + fullPath + '/' + fileName);
-      map.putDouble("width", image.getWidth());
-      map.putDouble("height", image.getHeight());
-
-      promise.resolve(map);
-
-    } catch (Exception e) {
-      Log.e("E_RNThumnail_ERROR", e.getMessage());
-      promise.reject("E_RNThumnail_ERROR", e);
-    }
-  }
 }
