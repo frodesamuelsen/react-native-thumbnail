@@ -17,9 +17,14 @@ RCT_EXPORT_METHOD(get:(NSString *)filepath resolve:(RCTPromiseResolveBlock)resol
                                reject:(RCTPromiseRejectBlock)reject)
 {
     @try {
-        filepath = [filepath stringByReplacingOccurrencesOfString:@"file://"
-                                                  withString:@""];
-        NSURL *vidURL = [NSURL fileURLWithPath:filepath];
+        NSURL *vidURL = nil;
+        if ([filepath hasPrefix:@"file://"]) {
+            filepath = [filepath stringByReplacingOccurrencesOfString:@"file://"
+                                                      withString:@""];
+            vidURL = [NSURL fileURLWithPath:filepath];
+        } else {
+            vidURL = [NSURL URLWithString:filepath];
+        }
         
         NSString *md5 = [MD5Encrypt MD5ForLower32Bate: [vidURL absoluteString]];
         
