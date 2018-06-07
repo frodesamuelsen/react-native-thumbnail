@@ -16,14 +16,16 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(get:(NSString *)filepath resolve:(RCTPromiseResolveBlock)resolve
                                reject:(RCTPromiseRejectBlock)reject)
 {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     @try {
+        NSString* path = filepath;
         NSURL *vidURL = nil;
-        if ([filepath hasPrefix:@"file://"]) {
-            filepath = [filepath stringByReplacingOccurrencesOfString:@"file://"
+        if ([path hasPrefix:@"file://"]) {
+            path = [path stringByReplacingOccurrencesOfString:@"file://"
                                                       withString:@""];
-            vidURL = [NSURL fileURLWithPath:filepath];
+            vidURL = [NSURL fileURLWithPath:path];
         } else {
-            vidURL = [NSURL URLWithString:filepath];
+            vidURL = [NSURL URLWithString:path];
         }
         
         NSString *md5 = [MD5Encrypt MD5ForLower32Bate: [vidURL absoluteString]];
@@ -36,12 +38,12 @@ RCT_EXPORT_METHOD(get:(NSString *)filepath resolve:(RCTPromiseResolveBlock)resol
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
         BOOL result = [fileManager fileExistsAtPath:fullPath];
-        
-        if (result) {
-            if (resolve)
-                resolve(@{ @"path" : fullPath });
-            return;
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (result) {
+                if (resolve)
+                    resolve(@{ @"path" : fullPath });
+                return;
+            }});
         
         AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:vidURL options:nil];
         AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
@@ -59,18 +61,23 @@ RCT_EXPORT_METHOD(get:(NSString *)filepath resolve:(RCTPromiseResolveBlock)resol
             NSFileManager *fileManager = [NSFileManager defaultManager];
         
             [fileManager createFileAtPath:fullPath contents:data attributes:nil];
-            if (resolve)
-                resolve(@{ @"path" : fullPath,
-                           @"width" : [NSNumber numberWithFloat: thumbnail.size.width],
-                           @"height" : [NSNumber numberWithFloat: thumbnail.size.height] });
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (resolve)
+                    resolve(@{ @"path" : fullPath,
+                               @"width" : [NSNumber numberWithFloat: thumbnail.size.width],
+                               @"height" : [NSNumber numberWithFloat: thumbnail.size.height] });
+            });
         } else {
-            if (resolve) {
-                resolve(@{});
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (resolve) {
+                    resolve(@{});
+                }});
         }
     } @catch(NSException *e) {
-        reject(e.reason, nil, nil);
-    }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            reject(e.reason, nil, nil);
+        });
+    }});
 }
 
 @end
