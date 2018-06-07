@@ -18,6 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 
 
 public class RNThumbnailModule extends ReactContextBaseJavaModule {
@@ -74,8 +75,12 @@ public class RNThumbnailModule extends ReactContextBaseJavaModule {
 	    }
 
 	    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-	    retriever.setDataSource(filePath);
-	    Bitmap image = retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+	    if (filePath.startsWith("http")) {
+			retriever.setDataSource(filePath, new HashMap<String, String>());
+		} else {
+			retriever.setDataSource(filePath);
+		}
+	    Bitmap image = retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST);
 
 		File dir = new File(fullPath);
 		if (!dir.exists()) {
