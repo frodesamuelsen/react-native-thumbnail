@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B3E7B58A1CC2AC0600A0062D /* RNThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNThumbnail.m */; };
-		DE86251B20B7F42D00A1DB3A /* MD5Encrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = DE86251A20B7F42D00A1DB3A /* MD5Encrypt.m */; };
+		DEEE3E18230113E700EE99E5 /* MD5Encrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = DEEE3E17230113E700EE99E5 /* MD5Encrypt.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,8 +27,8 @@
 		134814201AA4EA6300B7C361 /* libRNThumbnail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNThumbnail.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3E7B5881CC2AC0600A0062D /* RNThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNThumbnail.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNThumbnail.m; sourceTree = "<group>"; };
-		DE86251A20B7F42D00A1DB3A /* MD5Encrypt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MD5Encrypt.m; sourceTree = "<group>"; };
-		DE86251C20B7F43C00A1DB3A /* MD5Encrypt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MD5Encrypt.h; sourceTree = "<group>"; };
+		DEEE3E16230113E700EE99E5 /* MD5Encrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MD5Encrypt.h; sourceTree = "<group>"; };
+		DEEE3E17230113E700EE99E5 /* MD5Encrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MD5Encrypt.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,8 +53,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				DE86251C20B7F43C00A1DB3A /* MD5Encrypt.h */,
-				DE86251A20B7F42D00A1DB3A /* MD5Encrypt.m */,
+				DEEE3E16230113E700EE99E5 /* MD5Encrypt.h */,
+				DEEE3E17230113E700EE99E5 /* MD5Encrypt.m */,
 				B3E7B5881CC2AC0600A0062D /* RNThumbnail.h */,
 				B3E7B5891CC2AC0600A0062D /* RNThumbnail.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
@@ -100,6 +100,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 58B511D21A9E6C8500147676;
@@ -117,7 +118,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE86251B20B7F42D00A1DB3A /* MD5Encrypt.m in Sources */,
+				DEEE3E18230113E700EE99E5 /* MD5Encrypt.m in Sources */,
 				B3E7B58A1CC2AC0600A0062D /* RNThumbnail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

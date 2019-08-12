@@ -1,7 +1,7 @@
 {
   "name": "react-native-thumbnail-nevo",
-  "version": "1.1.7",
-  "description": "",
+  "version": "1.1.9",
+  "description": "Get thumbnail from local media.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,8 +14,5 @@
     "url": "git+https://github.com/phuochau/react-native-thumbnail.git"
   },
   "author": "Hau Vo <hau.vophuoc@gmail.com>",
-  "license": "MIT",
-  "peerDependencies": {
-    "react-native": "^0.47.0"
-  }
+  "license": "MIT"
 }
