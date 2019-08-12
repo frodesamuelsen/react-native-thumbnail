@@ -1,6 +1,6 @@
 {
   "name": "react-native-thumbnail-nevo",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "description": "Get thumbnail from local media.",
   "main": "index.js",
   "scripts": {

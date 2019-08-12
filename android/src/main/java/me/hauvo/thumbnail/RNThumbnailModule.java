@@ -1,26 +1,24 @@
 
 package me.hauvo.thumbnail;
 
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.os.Environment;
+
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Callback;
-import com.facebook.react.bridge.Promise;
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
-import android.media.ThumbnailUtils;
-import android.provider.MediaStore;
-import android.provider.MediaStore.Video.Thumbnails;
-import android.graphics.Bitmap;
-import android.os.Environment;
-import android.util.Log;
-import android.media.MediaMetadataRetriever;
-import 	android.graphics.Matrix;
 
-import java.util.UUID;
 import java.io.File;
-import java.io.OutputStream;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 
 
 public class RNThumbnailModule extends ReactContextBaseJavaModule {
@@ -64,7 +62,7 @@ public class RNThumbnailModule extends ReactContextBaseJavaModule {
   public void get(String filePath, Promise promise) {
     try {
       filePath = filePath.replace("file://","");
-      String fullPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/thumb";
+      String fullPath = this.reactContext.getCacheDir() + "/thumb";
       String fileName = "thumb-" + getMD5(filePath) + ".jpeg";
 
       File dir = new File(fullPath);
